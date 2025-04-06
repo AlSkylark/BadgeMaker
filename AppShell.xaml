@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="BadgeMaker.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:BadgeMaker.Views"
+    Shell.FlyoutBehavior="Flyout"
+    Title="Badge Maker">
+
+    <ShellContent
+        Title="Single mode"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="SingleMode" />
+    <ShellContent
+        Title="Bulk mode"
+        ContentTemplate="{DataTemplate local:BulkMode}"
+        Route="BulkMode"/>
+</Shell>

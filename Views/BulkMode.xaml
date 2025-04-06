@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BadgeMaker.ViewModels"
+             xmlns:m="clr-namespace:BadgeMaker.Models"
+             x:Class="BadgeMaker.Views.BulkMode">
+    
+    <ContentPage.BindingContext>
+        <vm:BulkModeViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ScrollView>
+        <VerticalStackLayout
+        Padding="30"
+        Spacing="10">
+            <Grid ColumnDefinitions="*, 150">
+                <VerticalStackLayout Grid.Column="1" Spacing="10">
+                    <Button Text="Single mode" Command="{Binding NavigateCommand}" CommandParameter="SingleMode"></Button>
+                </VerticalStackLayout>
+            </Grid>
+            <ListView ItemsSource="{Binding Badges, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="m:Badge">
+                        <ViewCell>
+                            <Grid ColumnDefinitions="*,*,*,50,50">
+                                <Label Grid.Column="0" Text="{Binding FullName}"/>
+                                <Label Grid.Column="1" Text="{Binding Company}"/>
+                                <Label Grid.Column="2" Text="{Binding Type}"/>
+                                <Switch Grid.Column="3" IsToggled="{Binding IsPrinted}"/>
+                                <Switch Grid.Column="4" IsToggled="{Binding Printing}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BadgeMaker.ViewModels"
+             x:Class="BadgeMaker.Views.MainPage"
+             x:DataType="vm:MainPageViewModel">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30"
+            Spacing="10">
+            <Grid ColumnDefinitions="*, 150">
+                <VerticalStackLayout Grid.Column="1" Spacing="10">
+                    <Button Text="Bulk mode" Command="{Binding NavigateCommand}" CommandParameter="BulkMode"></Button>
+                </VerticalStackLayout>
+            </Grid>
+
+
+            <AbsoluteLayout WidthRequest="600" HeightRequest="350">
+                <BoxView ZIndex="0" WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type AbsoluteLayout}}, Path=Width}"
+                         HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type AbsoluteLayout}}, Path=Height}" BackgroundColor="White" CornerRadius="10"/>
+                <StackLayout WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type AbsoluteLayout}}, Path=Width}" AbsoluteLayout.LayoutBounds="0, 125">
+                    <Entry MinimumWidthRequest="200" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" ZIndex="1"  Placeholder="Full name" FontSize="36" Text="{Binding BadgeViewModel.FullName}"></Entry>
+                    <Entry MinimumWidthRequest="200" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" ZIndex="1"  Placeholder="Company" FontSize="32" Text="{Binding BadgeViewModel.Company}"></Entry>
+                    <Entry MinimumWidthRequest="200" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" ZIndex="1"  FontSize="24" Placeholder="Badge type" Text="{Binding BadgeViewModel.Type}"></Entry>
+                </StackLayout>
+            </AbsoluteLayout>
+
+            <Button Text="PRINT BADGE" HorizontalOptions="Center" Command="{Binding PrintBadgeCommand}"></Button>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
