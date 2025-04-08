@@ -1,4 +1,5 @@
 ﻿using BadgeMaker.Services;
+using BadgeMaker.Stores;
 using BadgeMaker.ViewModels;
 using Microsoft.Extensions.Logging;
 
@@ -22,6 +23,8 @@ public static class MauiProgram
 #endif
         builder.Services.AddSingleton<IWordService, WordService>();
         builder.Services.AddSingleton<IMainPageViewModel, MainPageViewModel>();
+        builder.Services.AddSingleton<ISettingsService, SettingsService>();
+        builder.Services.AddSingleton<ITemplateErrorStore, TemplateErrorStore>();
 
         return builder.Build();
     }

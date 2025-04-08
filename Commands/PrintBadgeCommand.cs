@@ -1,10 +1,12 @@
-﻿using BadgeMaker.Models;
+﻿using System.Diagnostics;
+using BadgeMaker.Models;
 using BadgeMaker.Services;
-using System.Diagnostics;
+using BadgeMaker.Stores;
 
 namespace BadgeMaker.Commands;
 
-public class PrintBadgeCommand(Badge badge, IWordService wordService) : BaseCommand
+public class PrintBadgeCommand(Badge badge, IWordService wordService, ITemplateErrorStore store)
+    : BaseCommand
 {
     public override void Execute(object? parameter)
     {
@@ -15,6 +17,10 @@ public class PrintBadgeCommand(Badge badge, IWordService wordService) : BaseComm
 
     public override bool CanExecute(object? parameter)
     {
-        return !string.IsNullOrWhiteSpace(badge.FullName);
+        var test =
+            !string.IsNullOrWhiteSpace(badge.FullName)
+            && !store.TemplateErrors.Any(te => te.IsCritical);
+        Debug.WriteLine(test);
+        return test;
     }
 }

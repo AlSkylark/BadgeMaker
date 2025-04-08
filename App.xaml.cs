@@ -22,8 +22,15 @@ public partial class App : Application
     protected override void OnStart()
     {
         base.OnStart();
+
+        Current!.RequestedThemeChanged += OnThemeChange;
         AppDomain.CurrentDomain.ProcessExit += CleanUpWord;
         AppDomain.CurrentDomain.UnhandledException += CleanUpWord;
+    }
+
+    private void OnThemeChange(object? sender, AppThemeChangedEventArgs e)
+    {
+        Current!.UserAppTheme = e.RequestedTheme;
     }
 
     private void CleanUpWord(object? sender, EventArgs e)
