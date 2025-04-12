@@ -7,6 +7,15 @@ public partial class BadgeViewModel : BaseViewModel
     private readonly Badge _badge = new();
     public Badge Badge => _badge;
 
+    public BadgeViewModel() { }
+
+    public BadgeViewModel(Badge badge)
+    {
+        FullName = badge.FullName;
+        Company = badge.Company;
+        Type = badge.Type;
+    }
+
     private string? _fullName;
     public string? FullName
     {

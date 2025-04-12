@@ -1,26 +1,58 @@
-﻿using System.Diagnostics;
-using BadgeMaker.Models;
-using BadgeMaker.Services;
+﻿using BadgeMaker.Services;
 using BadgeMaker.Stores;
+using BadgeMaker.ViewModels;
 
 namespace BadgeMaker.Commands;
 
-public class PrintBadgeCommand(Badge badge, IWordService wordService, ITemplateErrorStore store)
-    : BaseCommand
+public class PrintBadgeCommand : BaseCommand
 {
-    public override void Execute(object? parameter)
+    private readonly BadgeViewModel? _badge;
+    private readonly Func<BadgeViewModel>? getBadge;
+    private readonly IWordService wordService;
+    private readonly ITemplateErrorStore store;
+
+    public PrintBadgeCommand(
+        BadgeViewModel badge,
+        IWordService wordService,
+        ITemplateErrorStore store
+    )
     {
-        //call word service
-        Debug.WriteLine($"Printing! {badge.FullName}, {badge.Company}, {badge.Type}");
-        wordService.PrintBadge(badge);
+        _badge = badge;
+        this.wordService = wordService;
+        this.store = store;
+    }
+
+    public PrintBadgeCommand(
+        Func<BadgeViewModel> getBadge,
+        IWordService wordService,
+        ITemplateErrorStore store
+    )
+    {
+        this.getBadge = getBadge;
+        this.wordService = wordService;
+        this.store = store;
+    }
+
+    public override async void Execute(object? parameter)
+    {
+        var badge = _badge ?? getBadge!();
+
+        var dispatcher = Dispatcher.GetForCurrentThread();
+        dispatcher?.Dispatch(() => badge.Printing = true);
+        var result = await Task.Run(() => wordService.PrintBadge(badge.Badge));
+        dispatcher?.Dispatch(() =>
+        {
+            badge.Printing = false;
+            badge.IsPrinted = result;
+        });
     }
 
     public override bool CanExecute(object? parameter)
     {
-        var test =
-            !string.IsNullOrWhiteSpace(badge.FullName)
+        var badge = _badge ?? getBadge!();
+
+        return badge is not null
+            && !string.IsNullOrWhiteSpace(badge.FullName)
             && !store.TemplateErrors.Any(te => te.IsCritical);
-        Debug.WriteLine(test);
-        return test;
     }
 }

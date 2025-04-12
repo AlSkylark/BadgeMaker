@@ -3,36 +3,87 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BadgeMaker.ViewModels"
              xmlns:m="clr-namespace:BadgeMaker.Models"
-             x:Class="BadgeMaker.Views.BulkMode">
-    
-    <ContentPage.BindingContext>
-        <vm:BulkModeViewModel/>
-    </ContentPage.BindingContext>
-    
+             xmlns:c="clr-namespace:BadgeMaker.Converters"
+             xmlns:ctrl="clr-namespace:BadgeMaker.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="BadgeMaker.Views.BulkMode"
+             x:DataType="vm:BulkModeViewModel">
+    <ContentPage.Resources>
+        <c:IsSelectedConverter x:Key="isSelectedConverter"/>
+        <toolkit:InvertedBoolConverter x:Key="invertedBoolConverter"/>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout
         Padding="30"
         Spacing="10">
-            <Grid ColumnDefinitions="*, 150">
-                <VerticalStackLayout Grid.Column="1" Spacing="10">
-                    <Button Text="Single mode" Command="{Binding NavigateCommand}" CommandParameter="SingleMode"></Button>
-                </VerticalStackLayout>
-            </Grid>
-            <ListView ItemsSource="{Binding Badges, Mode=TwoWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="m:Badge">
-                        <ViewCell>
-                            <Grid ColumnDefinitions="*,*,*,50,50">
-                                <Label Grid.Column="0" Text="{Binding FullName}"/>
-                                <Label Grid.Column="1" Text="{Binding Company}"/>
-                                <Label Grid.Column="2" Text="{Binding Type}"/>
-                                <Switch Grid.Column="3" IsToggled="{Binding IsPrinted}"/>
-                                <Switch Grid.Column="4" IsToggled="{Binding Printing}"/>
-                            </Grid>
-                        </ViewCell>
+            
+            <ctrl:MainControls NavigateTo="SingleMode" NavigateButtonText="Single mode"></ctrl:MainControls>
+
+
+            <CollectionView  
+                MaximumWidthRequest="750" 
+                MaximumHeightRequest="450" 
+                ItemsSource="{Binding Badges}" 
+                SelectedItem="{Binding SelectedBadge}"
+                SelectionMode="Single"
+                ItemSizingStrategy="MeasureFirstItem"
+                ItemsUpdatingScrollMode="KeepScrollOffset">
+                <CollectionView.Header>
+                    <StackLayout Spacing="5" Margin="10">
+                        <Grid ColumnDefinitions="*,*,*,100, 45, 45" ColumnSpacing="5">
+                            <Label Grid.Column="0" Text="Full name"/>
+                            <Label Grid.Column="1" Text="Company"/>
+                            <Label Grid.Column="2" Text="Type"/>
+                            <Label Grid.Column="3" Text="Print status" HorizontalOptions="Center"/>
+                        </Grid>
+                        <Line X2="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=Width}"></Line>
+                        <StackLayout HorizontalOptions="Center" Margin="50" IsVisible="{Binding HasNoBadges}">
+                            <Label Text="No items found."></Label>
+                            <Button  Text="Load list" Command="{Binding LoadListCommand}"></Button>
+                        </StackLayout>
+                    </StackLayout>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:BadgeViewModel">
+                        <Grid ColumnDefinitions="*,*,*,100, 45, 45" Padding="10" ColumnSpacing="5" Style="{StaticResource ForCollection}">
+                            <Label Grid.Column="0" VerticalOptions="Center" Text="{Binding FullName}" />
+                            <Label Grid.Column="1" VerticalOptions="Center" Text="{Binding Company}"/>
+                            <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Type}"/>
+                            <Label Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsPrinted}" Value="true">
+                                        <Setter Property="Text" Value="✔"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsPrinted}" Value="false">
+                                        <Setter Property="Text" Value="❌"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Printing}" Value="true">
+                                        <Setter Property="Text" Value="🖨"></Setter>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Button Grid.Column="4" Text="🖨" Style="{StaticResource SmallButton}" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BulkModeViewModel}}, Path=PrintBadgeCommand}">
+                                <Button.IsVisible>
+                                    <MultiBinding Converter="{StaticResource isSelectedConverter}">
+                                        <Binding Path="." />
+                                        <Binding Path="SelectedBadge" Source="{RelativeSource AncestorType={x:Type vm:BulkModeViewModel}}" />
+                                    </MultiBinding>
+                                </Button.IsVisible>
+                            </Button>
+                            <Button Grid.Column="5" Text="🗑" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BulkModeViewModel}}, Path=DeleteCommand}" Style="{StaticResource SmallButton}">
+                                <Button.IsVisible>
+                                    <MultiBinding Converter="{StaticResource isSelectedConverter}">
+                                        <Binding Path="." />
+                                        <Binding Path="SelectedBadge" Source="{RelativeSource AncestorType={x:Type vm:BulkModeViewModel}}" />
+                                    </MultiBinding>
+                                </Button.IsVisible>
+                            </Button>
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="PRINT ALL" HorizontalOptions="Center" Command="{Binding PrintAllCommand}"></Button>
+            <Button Text="Load another list" HorizontalOptions="Center" Command="{Binding LoadListCommand}" IsVisible="{Binding HasNoBadges, Converter={StaticResource invertedBoolConverter}}" Style="{StaticResource SmallButton}"></Button>
         </VerticalStackLayout>
     </ScrollView>
 
