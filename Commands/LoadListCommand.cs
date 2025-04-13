@@ -3,39 +3,59 @@ using System.Globalization;
 using BadgeMaker.Models;
 using BadgeMaker.ViewModels;
 using CsvHelper;
+using MiniExcelLibs;
 
 namespace BadgeMaker.Commands;
 
 public class LoadListCommand(ObservableCollection<BadgeViewModel> badges) : BaseCommand
 {
-    public override void Execute(object? parameter)
+    public override async void Execute(object? parameter)
     {
+        var result = await PickFile();
+        if (result is not null)
+        {
+            badges.Clear();
+            await LoadList(result);
+        }
+    }
+
+    private async Task LoadList(FileResult result)
+    {
+        List<Badge> results = [];
+        var extension = Path.GetExtension(result.FileName);
+
+        if (extension == ".csv")
+        {
+            results = await Task.Run(() => LoadCsv(result));
+        }
+        else if (extension == ".xlsx")
+        {
+            results = await Task.Run(() => LoadExcel(result));
+        }
+
         Dispatcher
             .GetForCurrentThread()
-            ?.Dispatch(async () =>
+            ?.Dispatch(() =>
             {
-                var result = await PickFile();
-                if (result is not null)
+                foreach (var record in results)
                 {
-                    badges.Clear();
-                    LoadList(result);
+                    badges.Add(new BadgeViewModel(record));
                 }
             });
     }
 
-    private void LoadList(FileResult result)
+    private static List<Badge> LoadCsv(FileResult result)
     {
-        if (Path.GetExtension(result.FileName) == ".csv")
-        {
-            using var reader = new StreamReader(result.FullPath);
-            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-            var records = csv.GetRecords<Badge>().ToList();
-            foreach (var record in records)
-            {
-                badges.Add(new BadgeViewModel(record));
-            }
-        }
-        else { }
+        using var reader = new StreamReader(result.FullPath);
+        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+        var records = csv.GetRecords<Badge>().ToList();
+        return records;
+    }
+
+    private static List<Badge> LoadExcel(FileResult result)
+    {
+        var rows = MiniExcel.Query<Badge>(result.FullPath).ToList();
+        return rows;
     }
 
     private static async Task<FileResult?> PickFile()
@@ -44,11 +64,11 @@ public class LoadListCommand(ObservableCollection<BadgeViewModel> badges) : Base
         {
             var options = new PickOptions
             {
-                PickerTitle = "Select an CSV or Excel file",
+                PickerTitle = "Select an CSV or Excel (.xlsx) file",
                 FileTypes = new FilePickerFileType(
                     new Dictionary<DevicePlatform, IEnumerable<string>>
                     {
-                        { DevicePlatform.WinUI, [".csv", ".xlsx", ".xls"] },
+                        { DevicePlatform.WinUI, [".csv", ".xlsx"] },
                     }
                 ),
             };

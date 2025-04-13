@@ -82,7 +82,18 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Text="PRINT ALL" HorizontalOptions="Center" Command="{Binding PrintAllCommand}"></Button>
+            <Button HorizontalOptions="Center">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding PrintingAll}" Value="true">
+                        <Setter Property="Text" Value="CANCEL PRINTING"/>
+                        <Setter Property="Command" Value="{Binding CancelCommand}"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding PrintingAll}" Value="false">
+                        <Setter Property="Text" Value="PRINT ALL"/>
+                        <Setter Property="Command" Value="{Binding PrintAllCommand}"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
             <Button Text="Load another list" HorizontalOptions="Center" Command="{Binding LoadListCommand}" IsVisible="{Binding HasNoBadges, Converter={StaticResource invertedBoolConverter}}" Style="{StaticResource SmallButton}"></Button>
         </VerticalStackLayout>
     </ScrollView>

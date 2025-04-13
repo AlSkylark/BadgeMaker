@@ -10,20 +10,55 @@ public class PrintAllCommand(
     ITemplateErrorStore store
 ) : BaseCommand
 {
+    public delegate void Printing();
+    public event Printing? PrintStarting;
+    public event Printing? PrintFinishing;
+
+    public bool PrintCancelled { get; set; }
+
     public override async void Execute(object? parameter)
     {
+        PrintStarting?.Invoke();
+
         var dispatcher = Dispatcher.GetForCurrentThread();
 
-        foreach (var badge in badges)
+        await Task.Run(() =>
         {
-            dispatcher?.Dispatch(() => badge.Printing = true);
-            var result = await Task.Run(() => wordService.PrintBadge(badge.Badge));
-            dispatcher?.Dispatch(() =>
+            foreach (var badge in badges)
             {
-                badge.Printing = false;
-                badge.IsPrinted = result;
-            });
-        }
+                if (PrintCancelled)
+                {
+                    CancelPrint(dispatcher!, badge);
+                    break;
+                }
+
+                PrintBadge(dispatcher!, badge);
+            }
+        });
+
+        PrintFinishing?.Invoke();
+    }
+
+    private void PrintBadge(IDispatcher dispatcher, BadgeViewModel badge)
+    {
+        dispatcher?.Dispatch(() => badge.Printing = true);
+        var result = wordService.PrintBadge(badge.Badge);
+        dispatcher?.Dispatch(() =>
+        {
+            badge.Printing = false;
+            badge.IsPrinted = result;
+        });
+    }
+
+    private void CancelPrint(IDispatcher dispatcher, BadgeViewModel badge)
+    {
+        dispatcher?.Dispatch(() =>
+        {
+            badge.Printing = false;
+            badge.IsPrinted = false;
+        });
+
+        PrintCancelled = false;
     }
 
     public override bool CanExecute(object? parameter)

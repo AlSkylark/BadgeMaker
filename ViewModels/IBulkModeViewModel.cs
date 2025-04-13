@@ -7,6 +7,6 @@ namespace BadgeMaker.ViewModels;
 public interface IBulkModeViewModel : INotifyPropertyChanged
 {
     ObservableCollection<BadgeViewModel> Badges { get; set; }
-    BaseCommand PrintAllCommand { get; init; }
+    PrintAllCommand PrintAllCommand { get; init; }
     BaseCommand PrintBadgeCommand { get; init; }
 }
