@@ -3,6 +3,7 @@ using System.Windows.Input;
 using BadgeMaker.Commands;
 using BadgeMaker.Services;
 using BadgeMaker.Stores;
+using BadgeMaker.Views;
 
 namespace BadgeMaker.ViewModels;
 
@@ -84,5 +85,12 @@ public partial class BulkModeViewModel : BaseViewModel, IBulkModeViewModel
             SelectedBadge = next;
 
             Badges.Remove(badge);
+        });
+
+    public ICommand BulkInfoCommand =>
+        new Command(() =>
+        {
+            var window = new BulkInstructions();
+            Application.Current.OpenWindow(window);
         });
 }

@@ -6,7 +6,7 @@
              xmlns:m="clr-namespace:BadgeMaker.Models"
              x:DataType="c:MainControlsViewModel">
     
-    <Grid ColumnDefinitions="150, *, 150" RowDefinitions="*,*">
+    <Grid ColumnDefinitions="200, *, 150" RowDefinitions="*,*">
         <Button Grid.Column="2" Grid.Row="0" VerticalOptions="Start" HorizontalOptions="End" Command="{Binding ThemeChangeCommand}">
             <Button.Style>
                 <Style TargetType="Button">
@@ -16,11 +16,16 @@
         </Button>
         <VerticalStackLayout Grid.Column="0" Spacing="10">
             <Button 
+                WidthRequest="150"
+                HorizontalOptions="Start"
                 Text="{Binding Source={RelativeSource AncestorType={x:Type c:MainControls}}, Path=NavigateButtonText}" 
                 Command="{Binding NavigateCommand}" 
                 CommandParameter="{Binding Source={RelativeSource AncestorType={x:Type c:MainControls}}, Path=NavigateTo}">
             </Button>
-            <Button Text="Load template" Command="{Binding LoadTemplateCommand}"></Button>
+            <StackLayout Orientation="Horizontal" Spacing="5">
+                <Button WidthRequest="150" Text="Load template" Command="{Binding LoadTemplateCommand}"></Button>
+                <Button  Style="{StaticResource SmallButton}"  Text="ℹ️" FontSize="16" Command="{Binding OpenInfoCommand}"></Button>
+            </StackLayout>
         </VerticalStackLayout>
         <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
             <Label.Triggers>

@@ -4,6 +4,7 @@ using BadgeMaker.Commands;
 using BadgeMaker.Services;
 using BadgeMaker.Stores;
 using BadgeMaker.ViewModels;
+using BadgeMaker.Views;
 
 namespace BadgeMaker.Controls
 {
@@ -36,5 +37,12 @@ namespace BadgeMaker.Controls
         public ICommand LoadTemplateCommand { get; init; }
         public ICommand NavigateCommand => new NavigateCommand();
         public ICommand ThemeChangeCommand => new ThemeChangeCommand();
+
+        public ICommand OpenInfoCommand =>
+            new Command(() =>
+            {
+                var window = new TemplateInstructionsWindow();
+                Application.Current.OpenWindow(window);
+            });
     }
 }

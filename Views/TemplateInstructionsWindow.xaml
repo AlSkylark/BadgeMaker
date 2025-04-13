@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BadgeMaker.Views.TemplateInstructionsWindow"
+             Title="Template instructions">
+    <ContentPage>
+        <ContentView>
+            <ScrollView>
+                <VerticalStackLayout Padding="50" Spacing="10">
+                    <Label Text="By default a template comes with this program, if you wish to use your own you have to keep in mind a few things."
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryTextColor_Light}, Dark={StaticResource PrimaryTextColor_Dark}}" />
+
+                    <Label Text="This badge maker uses Word Templates (&quot;.dotx&quot; format) to create and print out badges."
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryTextColor_Light}, Dark={StaticResource PrimaryTextColor_Dark}}"
+                    />
+
+                    <Label Text="These templates need &quot;ContentControls&quot;, which are controls added through &quot;Developer mode&quot;, with the following &quot;Tag&quot;s:"
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryTextColor_Light}, Dark={StaticResource PrimaryTextColor_Dark}}"
+                    />
+
+                    <Frame BorderColor="{AppThemeBinding Light={StaticResource FrameBorderColor_Light}, Dark={StaticResource FrameBorderColor_Dark}}" 
+                   BackgroundColor="{AppThemeBinding Light={StaticResource FrameBackgroundColor_Light}, Dark={StaticResource FrameBackgroundColor_Dark}}"
+                   Padding="15" 
+                   Margin="20,10,0,0"
+                   CornerRadius="8"
+                   HasShadow="True">
+                        <VerticalStackLayout Spacing="15">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="•" 
+                               FontSize="16" 
+                               VerticalOptions="Start"
+                               TextColor="{AppThemeBinding Light={StaticResource SecondaryTextColor_Light}, Dark={StaticResource SecondaryTextColor_Dark}}" />
+                                <Label Text="FullName - Where the Full name of the person would go." 
+                               FontSize="16"
+                               TextColor="{AppThemeBinding Light={StaticResource SecondaryTextColor_Light}, Dark={StaticResource SecondaryTextColor_Dark}}" />
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="•" 
+                               FontSize="16" 
+                               VerticalOptions="Start"
+                               TextColor="{AppThemeBinding Light={StaticResource SecondaryTextColor_Light}, Dark={StaticResource SecondaryTextColor_Dark}}" />
+                                <Label Text="Company - Where the Company name of the person's organisation would go." 
+                               FontSize="16"
+                               TextColor="{AppThemeBinding Light={StaticResource SecondaryTextColor_Light}, Dark={StaticResource SecondaryTextColor_Dark}}" />
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="•" 
+                               FontSize="16" 
+                               VerticalOptions="Start"
+                               TextColor="{AppThemeBinding Light={StaticResource SecondaryTextColor_Light}, Dark={StaticResource SecondaryTextColor_Dark}}" />
+                                <Label Text="BadgeType - Where the badge type would go." 
+                               FontSize="16"
+                               TextColor="{AppThemeBinding Light={StaticResource SecondaryTextColor_Light}, Dark={StaticResource SecondaryTextColor_Dark}}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Label Text="Except for the &quot;FullName&quot;, these controls are optional."
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryTextColor_Light}, Dark={StaticResource PrimaryTextColor_Dark}}"
+                    />
+                    <Image Source="template_example.png" MaximumHeightRequest="750"/>
+                    <Button Text="Close" HorizontalOptions="Center" Clicked="OnClose"></Button>
+                </VerticalStackLayout>
+            </ScrollView>
+        </ContentView>
+    </ContentPage>
+</Window>

@@ -52,7 +52,14 @@ public class PrintBadgeCommand : BaseCommand
         var badge = _badge ?? getBadge!();
 
         return badge is not null
-            && !string.IsNullOrWhiteSpace(badge.FullName)
+            && NoControlIsNull(badge)
             && !store.TemplateErrors.Any(te => te.IsCritical);
+    }
+
+    private static bool NoControlIsNull(BadgeViewModel badge)
+    {
+        return !string.IsNullOrWhiteSpace(badge.FullName)
+            || !string.IsNullOrWhiteSpace(badge.Company)
+            || !string.IsNullOrWhiteSpace(badge.Type);
     }
 }

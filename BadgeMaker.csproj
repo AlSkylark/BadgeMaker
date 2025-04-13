@@ -85,6 +85,12 @@
 	  <Compile Update="Views\BulkMode.xaml.cs">
 	    <DependentUpon>BulkMode.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\PrintingInstructions.xaml.cs">
+	    <DependentUpon>PrintingInstructions.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\BulkInstructions.xaml.cs">
+	    <DependentUpon>BulkInstructions.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -98,6 +104,15 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\BulkMode.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PrintingInstructions.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\BulkInstructions.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\TemplateInstructionsWindow.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

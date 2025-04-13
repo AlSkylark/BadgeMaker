@@ -44,4 +44,18 @@
     <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+
+
+    <Color x:Key="PrimaryTextColor_Light">#333333</Color>
+    <Color x:Key="SecondaryTextColor_Light">#555555</Color>
+    <Color x:Key="FrameBorderColor_Light">#DDDDDD</Color>
+    <Color x:Key="FrameBackgroundColor_Light">#F8F8F8</Color>
+
+    <Color x:Key="PrimaryTextColor_Dark">#E0E0E0</Color>
+    <Color x:Key="SecondaryTextColor_Dark">#CCCCCC</Color>
+    <Color x:Key="FrameBorderColor_Dark">#555555</Color>
+    <Color x:Key="FrameBackgroundColor_Dark">#333333</Color>
+
+    <Color x:Key="CaptionTextColor_Light">#777777</Color>
+    <Color x:Key="CaptionTextColor_Dark">#AAAAAA</Color>
 </ResourceDictionary>

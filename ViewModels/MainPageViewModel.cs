@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Windows.Input;
 using BadgeMaker.Commands;
 using BadgeMaker.Services;
 using BadgeMaker.Stores;
+using BadgeMaker.Views;
 
 namespace BadgeMaker.ViewModels;
 
@@ -28,4 +30,11 @@ public partial class MainPageViewModel : BaseViewModel, IMainPageViewModel
     public BadgeViewModel BadgeViewModel { get; set; }
 
     public BaseCommand PrintBadgeCommand { get; init; }
+
+    public ICommand OpenPrinterInfoCommand =>
+        new Command(() =>
+        {
+            var window = new PrintingInstructions();
+            Application.Current.OpenWindow(window);
+        });
 }

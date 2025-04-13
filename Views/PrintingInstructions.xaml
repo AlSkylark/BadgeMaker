@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BadgeMaker.Views.PrintingInstructions"
+             Title="Printing instructions">
+    <ContentPage>
+        <ContentView>
+            <ScrollView>
+                <VerticalStackLayout Padding="50" Spacing="16">
+
+                    <!-- First instruction -->
+                    <Label Text="To print a badge out all that is required is at least one field to be filled."
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryTextColor_Light}, Dark={StaticResource PrimaryTextColor_Dark}}" />
+
+                    <!-- Second instruction -->
+                    <Label TextType="Html" Text="&lt;b&gt;Before printing&lt;/b&gt;, make sure you've marked your target printer as default in Windows settings."
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryTextColor_Light}, Dark={StaticResource PrimaryTextColor_Dark}}" />
+
+                    <!-- First image placeholder -->
+                    <Image Source="print_settings_example.png"
+                           HorizontalOptions="Center" MaximumHeightRequest="300"/>
+
+                    <!-- Alternative instruction -->
+                    <Label Text="Alternatively you can use Microsoft's PDF printer, a file picker will appear asking you to enter a file name and select where to save it (you can then manually print this at a later time)."
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryTextColor_Light}, Dark={StaticResource PrimaryTextColor_Dark}}"
+                   Margin="0,10,0,0" />
+
+                    <!-- Second image placeholder -->
+                    <Image Source="print_pdf_example.png"
+                           HorizontalOptions="Center" MaximumHeightRequest="300"/>
+                    <Button Text="Close" HorizontalOptions="Center" Clicked="OnClose"></Button>
+                </VerticalStackLayout>
+            </ScrollView>
+        </ContentView>
+    </ContentPage>
+</Window>

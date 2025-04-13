@@ -38,8 +38,11 @@
                         </Grid>
                         <Line X2="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=Width}"></Line>
                         <StackLayout HorizontalOptions="Center" Margin="50" IsVisible="{Binding HasNoBadges}">
-                            <Label Text="No items found."></Label>
-                            <Button  Text="Load list" Command="{Binding LoadListCommand}"></Button>
+                            <Label HorizontalOptions="Center" Text="No items found."></Label>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center"  Spacing="5">
+                                <Button WidthRequest="120" Text="Load list" Command="{Binding LoadListCommand}"></Button>
+                                <Button  Style="{StaticResource SmallButton}"  Text="ℹ️" FontSize="16" Command="{Binding BulkInfoCommand}"></Button>
+                            </StackLayout>
                         </StackLayout>
                     </StackLayout>
                 </CollectionView.Header>

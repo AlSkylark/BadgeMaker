@@ -22,14 +22,18 @@
                          HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type AbsoluteLayout}}, Path=Height}"  CornerRadius="10"/>
                 </Border>
 
-                <StackLayout WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type AbsoluteLayout}}, Path=Width}" AbsoluteLayout.LayoutBounds="0, 125">
+                <StackLayout WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type AbsoluteLayout}}, Path=Width}" AbsoluteLayout.LayoutBounds="0, 100">
                     <Entry MinimumWidthRequest="200" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" ZIndex="1"  Placeholder="Full name" FontSize="36" Text="{Binding BadgeViewModel.FullName}"></Entry>
                     <Entry MinimumWidthRequest="200" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" ZIndex="1"  Placeholder="Company" FontSize="32" Text="{Binding BadgeViewModel.Company}"></Entry>
                     <Entry MinimumWidthRequest="200" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" ZIndex="1"  FontSize="24" Placeholder="Badge type" Text="{Binding BadgeViewModel.Type}"></Entry>
                 </StackLayout>
             </AbsoluteLayout>
 
-            <Button Text="PRINT BADGE" HorizontalOptions="Center" Command="{Binding PrintBadgeCommand}"></Button>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="5">
+                <Button Text="PRINT BADGE"  Command="{Binding PrintBadgeCommand}"></Button>
+                <Button  Style="{StaticResource SmallButton}"  Text="ℹ️" FontSize="16" Command="{Binding OpenPrinterInfoCommand}"></Button>
+            </StackLayout>
         </VerticalStackLayout>
     </ScrollView>
 
